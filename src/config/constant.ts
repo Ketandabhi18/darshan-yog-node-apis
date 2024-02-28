@@ -5,6 +5,8 @@ export const AuthMessage = {
   NO_TOKEN: "No token provided.",
   FAILED_TO_AUTHENTICATE: "Failed to authenticate token.",
   USER_NOT_EXISTS: "User not exist.",
+  EMAIL_ALREADY_EXISTS: "Email is already registered.",
+  REGISTRATION_SUCCESS:"User Registration successfully."
 };
 
 export const statusCode = {

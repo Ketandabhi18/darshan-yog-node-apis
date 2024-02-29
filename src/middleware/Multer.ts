@@ -2,7 +2,7 @@ import multer from "multer";
 import fs from "fs";
 import path from "path";
 
-exports.upload = (folderName: any) => {
+export const MulterUpload = (folderName: any) => {
   return multer({
     storage: multer.diskStorage({
       destination: function (req, file, cb) {

@@ -3,4 +3,5 @@ export const collections = {
   users: "users",
   navcategories: "navcategories",
   subnavcategories: "subnavcategories",
+  programschedule: "programschedules",
 };

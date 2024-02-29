@@ -24,9 +24,15 @@ export const generalMessage = {
 
 export const Messages = {
   NAVCATEGORY_ALREADY_EXISTS: "NavCategory Already Exist.",
-  NAVCATEGORY_ADDED: "NavCatefory Added Successfully.",
+  NAVCATEGORY_ADDED: "NavCategory Added Successfully.",
   NAVCATEGORY_NOT_EXIST: "NavCategory Not Exist.",
   NAVCATEGORY_DETAILS: "NavCategory Details",
   NAVCATEGORY_UPDATED: "NavCategory updated successfully.",
   NAVCATEGORY_DELETED: "NavCategory deleted successfully.",
+  SUBNAVCATEGORY_ALREADY_EXISTS: "SubNavCategory Already Exist.",
+  SUBNAVCATEGORY_ADDED: "SubNavCatefory Added Successfully.",
+  SUBNAVCATEGORY_NOT_EXIST: "SubNavCategory Not Exist.",
+  SUBNAVCATEGORY_DETAILS: "SubNavCategory Details",
+  SUBNAVCATEGORY_UPDATED: "SubNavCategory updated successfully.",
+  SUBNAVCATEGORY_DELETED: "SubNavCategory deleted successfully.",
 };

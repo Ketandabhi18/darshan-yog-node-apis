@@ -18,10 +18,7 @@ const auth = (req: any, res: Response, next: NextFunction) => {
       });
     }
 
-    let secret: string =
-      req.body.type === 1
-        ? process.env.SECRETADMIN
-        : process.env.SECRETUSER ?? "";
+    let secret: string = process.env.SECRETADMIN ?? "";
     verify(token, secret, function (err: VerifyErrors | null, decoded: any) {
       if (err) {
         return res.send({

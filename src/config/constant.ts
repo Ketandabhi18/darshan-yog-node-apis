@@ -6,7 +6,7 @@ export const AuthMessage = {
   FAILED_TO_AUTHENTICATE: "Failed to authenticate token.",
   USER_NOT_EXISTS: "User not exist.",
   EMAIL_ALREADY_EXISTS: "Email is already registered.",
-  REGISTRATION_SUCCESS:"User Registration successfully."
+  REGISTRATION_SUCCESS: "User Registration successfully.",
 };
 
 export const statusCode = {
@@ -20,4 +20,19 @@ export const statusCode = {
 
 export const generalMessage = {
   SOMETHING_WENT_WRONG: "Something went wrong.",
+};
+
+export const Messages = {
+  NAVCATEGORY_ALREADY_EXISTS: "NavCategory Already Exist.",
+  NAVCATEGORY_ADDED: "NavCategory Added Successfully.",
+  NAVCATEGORY_NOT_EXIST: "NavCategory Not Exist.",
+  NAVCATEGORY_DETAILS: "NavCategory Details",
+  NAVCATEGORY_UPDATED: "NavCategory updated successfully.",
+  NAVCATEGORY_DELETED: "NavCategory deleted successfully.",
+  SUBNAVCATEGORY_ALREADY_EXISTS: "SubNavCategory Already Exist.",
+  SUBNAVCATEGORY_ADDED: "SubNavCatefory Added Successfully.",
+  SUBNAVCATEGORY_NOT_EXIST: "SubNavCategory Not Exist.",
+  SUBNAVCATEGORY_DETAILS: "SubNavCategory Details",
+  SUBNAVCATEGORY_UPDATED: "SubNavCategory updated successfully.",
+  SUBNAVCATEGORY_DELETED: "SubNavCategory deleted successfully.",
 };

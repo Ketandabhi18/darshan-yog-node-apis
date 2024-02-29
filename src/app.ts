@@ -7,7 +7,7 @@ import { connection } from "./config/db.config";
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 7000;
+const port = process.env.PORT;
 connection();
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -39,4 +39,6 @@ export const Messages = {
   PROGRAM_SCHEDULED: "Program Scheduled Successfully",
   PROGRAM_SCHEDULE_NOT_FOUND: "Program Schedule not found.",
   PROGRAM_SCHEDULE_DELETED: "Program Schedule Deleted Successfully.",
+  PROGRAM_SCHEDULE_UPDATED: "Program Schedule updated Successfully.",
+  SCHEDULED_PROGRAMS: "Scheduled Programs.",
 };

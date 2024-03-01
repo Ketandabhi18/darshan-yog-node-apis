@@ -3,6 +3,7 @@ import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
 import { AuthMessage, generalMessage, statusCode } from "../config/constant";
 import { collections } from "../config/collections";
+import { sendOtp } from "../middleware/Otp";
 
 export const adminLoginUtils = async (data: any) => {
   try {
@@ -134,7 +135,7 @@ export const userLoginUtils = async (data: any) => {
 
 export const registerUserUtils = async (data: any) => {
   try {
-    let { name, email, mobile, password } = data;
+    let { name, email, mobile, password, ...restFields } = data;
 
     let findUser = await db
       .collection(collections.users)
@@ -157,9 +158,13 @@ export const registerUserUtils = async (data: any) => {
       mobile,
       originalPassword: password,
       password: pass,
+      ...restFields,
       createAt: new Date(),
     });
     console.log("registerUser :: ", registerUser);
+
+    const otpresponse = await sendOtp(mobile);
+    console.log("RegisterUser  :: sendOtpResponse :: ", otpresponse);
 
     return {
       status: statusCode.CREATED,

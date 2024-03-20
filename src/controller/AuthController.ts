@@ -3,6 +3,7 @@ import {
   adminLoginUtils,
   getOtpUtils,
   registerUserUtils,
+  userLoginCentralizedAPi,
   userLoginUtils,
 } from "../utils/Auth.utils";
 import { generalMessage, statusCode } from "../config/constant";
@@ -16,8 +17,9 @@ export const login = async (req: Request, res: Response) => {
       data = await adminLoginUtils(req.body);
       res.json(data);
     } else {
-      data = await userLoginUtils(req.body);
-      res.json(data);
+      data = await userLoginCentralizedAPi(req.body);
+      // data = await userLoginUtils(req.body);
+      res.send(data);
     }
   } catch (error) {
     console.log("login :: error :: ", error);

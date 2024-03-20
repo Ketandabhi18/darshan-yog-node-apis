@@ -184,38 +184,18 @@ export const registerUserUtils = async (data: any) => {
 
 export const getOtpUtils = async (data: any) => {
   try {
-    // Download the helper library from https://www.twilio.com/docs/node/install
-    // Set environment variables for your credentials
-    // Read more at http://twil.io/secure
-    const accountSid = "AC8dedee7b4537b26974944eac444c07c8";
-    const authToken = "c020290076d0a01fbc6cb4ec452cd7b2";
-    const verifySid = "VA3a76ffdcd084c518a93cda5e3a834d13";
-    const client = require("twilio")(accountSid, authToken);
-
-    client.verify.v2
-      .services(verifySid)
-      .verifications.create({ to: "+918849836465", channel: "sms" })
-      .then((verification) => console.log(verification.status))
-      .then(() => {
-        const readline = require("readline").createInterface({
-          input: process.stdin,
-          output: process.stdout,
-        });
-        readline.question("Please enter the OTP:", (otpCode) => {
-          client.verify.v2
-            .services(verifySid)
-            .verificationChecks.create({ to: "+918849836465", code: otpCode })
-            .then((verification_check) =>
-              console.log(verification_check.status)
-            )
-            .then(() => readline.close());
-        });
+    axios
+      .post("http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/otp", {
+        username: data.username,
+        countryCode: "+91",
+      })
+      .then((res) => {
+        return {
+          status: statusCode.SUCCESS,
+          data: {},
+          message: AuthMessage.OTP_SENT,
+        };
       });
-    return {
-      status: statusCode.INTERNAL_SERVER_ERROR,
-      data: "error",
-      message: generalMessage.SOMETHING_WENT_WRONG,
-    };
   } catch (error) {
     console.log(error);
     return {

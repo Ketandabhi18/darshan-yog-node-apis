@@ -7,6 +7,7 @@ export const AuthMessage = {
   USER_NOT_EXISTS: "User not exist.",
   EMAIL_ALREADY_EXISTS: "Email is already registered.",
   REGISTRATION_SUCCESS: "User Registration successfully.",
+  OTP_SENT: "OTP Sent Successfully",
 };
 
 export const statusCode = {

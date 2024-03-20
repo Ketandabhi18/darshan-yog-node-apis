@@ -4,6 +4,7 @@ import { sign } from "jsonwebtoken";
 import { AuthMessage, generalMessage, statusCode } from "../config/constant";
 import { collections } from "../config/collections";
 import { sendOtp } from "../middleware/Otp";
+import axios from "axios";
 
 export const adminLoginUtils = async (data: any) => {
   try {
@@ -225,9 +226,47 @@ export const getOtpUtils = async (data: any) => {
   }
 };
 
+export const userLoginCentralizedAPi = async (data: any) => {
+  try {
+    const { username, password } = data;
+
+    // Encode username and password in base64
+    const authString = Buffer.from(`${username}:${password}`).toString(
+      "base64"
+    );
+
+    const requestHeaders = {
+      // "Content-Type": "application/json",
+      Authorization: `Basic ${authString}`,
+    };
+
+    const response = await axios.get(
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/user",
+      {
+        headers: requestHeaders,
+      }
+    );
+
+    console.log("response ", response.data.data);
+    return {
+      status: statusCode.SUCCESS,
+      data: { token: response.headers.authorization, ...response.data.data },
+      message: AuthMessage.LOGIN_SUCCESS,
+    };
+  } catch (error) {
+    console.log("error :: ", error);
+    return {
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    };
+  }
+};
+
 module.exports = {
   userLoginUtils,
   adminLoginUtils,
   getOtpUtils,
   registerUserUtils,
+  userLoginCentralizedAPi,
 };

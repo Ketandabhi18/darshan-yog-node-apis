@@ -1,7 +1,12 @@
 import { db } from "../config/db.config";
 import { compare, hash } from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { AuthMessage, generalMessage, statusCode } from "../config/constant";
+import {
+  AuthMessage,
+  Messages,
+  generalMessage,
+  statusCode,
+} from "../config/constant";
 import { collections } from "../config/collections";
 import { sendOtp } from "../middleware/Otp";
 import axios from "axios";
@@ -243,10 +248,35 @@ export const userLoginCentralizedAPi = async (data: any) => {
   }
 };
 
+export const userUpdateUtils = async (data: any, headers: any) => {
+  try {
+    const response = await axios.post(
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/save/user",
+      data,
+      { headers: headers }
+    );
+
+    console.log("response.data.data :: ", response.data.data);
+    return {
+      status: statusCode.SUCCESS,
+      data: response.data.data,
+      messsage: Messages.USER_UPDATED,
+    };
+  } catch (error) {
+    console.log("error :: ", error);
+    return {
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    };
+  }
+};
+
 module.exports = {
   userLoginUtils,
   adminLoginUtils,
   getOtpUtils,
   registerUserUtils,
   userLoginCentralizedAPi,
+  userUpdateUtils,
 };

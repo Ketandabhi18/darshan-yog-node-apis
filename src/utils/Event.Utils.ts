@@ -21,6 +21,32 @@ export const getActiveEventsUtils = async () => {
   }
 };
 
+export const registerForEventUtils = async (data: any, headers: any) => {
+  try {
+    const response = await axios.post(
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register",
+      data,
+      {
+        headers: headers,
+      }
+    );
+    console.log("response.data.data :: ", response);
+    return {
+      status: statusCode.SUCCESS,
+      data: response.data.data,
+      messsage: Messages.ACTIVE_EVENTS,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    };
+  }
+};
+
 module.exports = {
   getActiveEventsUtils,
+  registerForEventUtils,
 };

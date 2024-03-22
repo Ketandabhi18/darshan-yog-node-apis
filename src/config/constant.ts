@@ -43,4 +43,5 @@ export const Messages = {
   PROGRAM_SCHEDULE_UPDATED: "Program Schedule updated Successfully.",
   SCHEDULED_PROGRAMS: "Scheduled Programs.",
   ACTIVE_EVENTS: "Active Events.",
+  USER_UPDATED: "User Details Updated Successfully.",
 };

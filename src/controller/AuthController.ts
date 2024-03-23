@@ -5,6 +5,7 @@ import {
   registerUserUtils,
   userLoginCentralizedAPi,
   userLoginUtils,
+  userPasswordUpdateUtils,
   userUpdateUtils,
 } from "../utils/Auth.utils";
 import { generalMessage, statusCode } from "../config/constant";
@@ -80,10 +81,32 @@ export const userUpdateController = async (req: Request, res: Response) => {
     });
   }
 };
+export const userPasswordUpdateController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    console.log("req.body :: ", req.body);
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${req.headers.authorization}`,
+    };
+    const data = await userPasswordUpdateUtils(req.body, headers);
+    res.json(data);
+  } catch (error) {
+    console.log("login :: error :: ", error);
+    res.json({
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    });
+  }
+};
 
 module.exports = {
   login,
   getOtpController,
   registerController,
   userUpdateController,
+  userPasswordUpdateController,
 };

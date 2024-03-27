@@ -189,18 +189,27 @@ export const registerUserUtils = async (data: any) => {
 
 export const getOtpUtils = async (data: any) => {
   try {
-    axios
-      .post("http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/otp", {
+    const res = await axios.post(
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/otp",
+      {
         username: data.username,
         countryCode: "+91",
-      })
-      .then((res) => {
-        return {
-          status: statusCode.SUCCESS,
-          data: {},
-          message: AuthMessage.OTP_SENT,
-        };
-      });
+      }
+    );
+
+    if (res.data.data) {
+      return {
+        status: statusCode.SUCCESS,
+        data: {},
+        message: AuthMessage.OTP_SENT,
+      };
+    } else {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: {},
+        message: res.data.error.errorMessage,
+      };
+    }
   } catch (error) {
     console.log(error);
     return {
@@ -232,12 +241,19 @@ export const userLoginCentralizedAPi = async (data: any) => {
       }
     );
 
-    console.log("response ", response.data.data);
-    return {
-      status: statusCode.SUCCESS,
-      data: { token: response.headers.authorization, ...response.data.data },
-      message: AuthMessage.LOGIN_SUCCESS,
-    };
+    if (Object.keys(response.headers).includes("authorization")) {
+      return {
+        status: statusCode.SUCCESS,
+        data: { token: response.headers.authorization, ...response.data.data },
+        message: AuthMessage.LOGIN_SUCCESS,
+      };
+    } else {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: {},
+        message: AuthMessage.LOGIN_FAILED,
+      };
+    }
   } catch (error) {
     console.log("error :: ", error);
     return {
@@ -256,12 +272,19 @@ export const userUpdateUtils = async (data: any, headers: any) => {
       { headers: headers }
     );
 
-    console.log("response.data.data :: ", response.data.data);
-    return {
-      status: statusCode.SUCCESS,
-      data: response.data.data,
-      messsage: Messages.USER_UPDATED,
-    };
+    if (response.data.data) {
+      return {
+        status: statusCode.SUCCESS,
+        data: response.data.data,
+        messsage: Messages.USER_UPDATED,
+      };
+    } else {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: null,
+        message: response.data.error.errorMessage,
+      };
+    }
   } catch (error) {
     console.log("error :: ", error);
     return {

@@ -1,6 +1,8 @@
 export const AuthMessage = {
   LOGIN_SUCCESS: "Login successfully.",
   INVALID_PASSWORD: "Invalid Password.",
+  INVALID_CREDS: "Invalid Credentials.",
+  LOGIN_FAILED :"Login Failed",
   ADMIN_NOT_EXISTS: "Admin not exist.",
   NO_TOKEN: "No token provided.",
   FAILED_TO_AUTHENTICATE: "Failed to authenticate token.",
@@ -8,6 +10,7 @@ export const AuthMessage = {
   EMAIL_ALREADY_EXISTS: "Email is already registered.",
   REGISTRATION_SUCCESS: "User Registration successfully.",
   OTP_SENT: "OTP Sent Successfully",
+  OTP_ERROR: "Try resend otp only after 5 mins",
 };
 
 export const statusCode = {

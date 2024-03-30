@@ -196,6 +196,7 @@ export const getOtpUtils = async (data: any) => {
         countryCode: "+91",
       }
     );
+    console.log("get otp :: res.data", res.data);
 
     if (res.data.data) {
       return {
@@ -223,6 +224,7 @@ export const getOtpUtils = async (data: any) => {
 export const userLoginCentralizedAPi = async (data: any) => {
   try {
     const { username, password } = data;
+    console.log("username :: ", username, "password :: ", password);
 
     // Encode username and password in base64
     const authString = Buffer.from(`${username}:${password}`).toString(
@@ -240,7 +242,7 @@ export const userLoginCentralizedAPi = async (data: any) => {
         headers: requestHeaders,
       }
     );
-
+    console.log("response :: data :: Login Api :: ", response);
     if (Object.keys(response.headers).includes("authorization")) {
       return {
         status: statusCode.SUCCESS,
@@ -271,6 +273,8 @@ export const userUpdateUtils = async (data: any, headers: any) => {
       data,
       { headers: headers }
     );
+
+    console.log("user update utils :: ", response.data);
 
     if (response.data.data) {
       return {

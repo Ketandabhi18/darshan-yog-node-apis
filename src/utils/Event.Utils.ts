@@ -26,13 +26,13 @@ export const registerForEventUtils = async (data: any, headers: any) => {
   try {
     const inputDateTimeArrival = moment.tz(
       data.arrivalDate,
-      "DD-MM-YYYY HH:mm",
+      "MM-DD-YYYY HH:mm",
       "Asia/Kolkata"
     );
 
     const inputDateTimeDeparture = moment.tz(
       data.departureDate,
-      "DD-MM-YYYY HH:mm",
+      "MM-DD-YYYY HH:mm",
       "Asia/Kolkata"
     );
     const outputDateTimeArrival =
@@ -40,7 +40,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     const outputDateTimeDeparture =
       inputDateTimeDeparture.format("YYYY-MM-DD HH:mm");
 
-    console.log(`${outputDateTimeArrival} IST`, {
+    console.log("registerForEvent :: body ::", {
       ...data,
       arrivalDate: `${outputDateTimeArrival} IST`,
       departureDate: `${outputDateTimeDeparture} IST`,
@@ -57,7 +57,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       }
     );
 
-    console.log("response.data.data :: ", response.data);
+    console.log("registerEvent :: response.data.data :: ", response.data);
     return {
       status: statusCode.SUCCESS,
       data: response.data.data,
@@ -80,26 +80,21 @@ export const registeredEventUtils = async (headers: any) => {
         headers: headers,
       }
     );
-    const newData = response.data.data.map((E: any) => {
-      const utcDateTimeArrival = moment.utc(E.arrivalDate);
-      const utcDateTimeDeparture = moment.utc(E.departureDate);
-      const istDateTimeArrival = utcDateTimeArrival
-        .clone()
-        .subtract(5, "hours")
-        .format("YYYY-MM-DD HH:mm");
-      const istDateTimeDeparture = utcDateTimeDeparture
-        .clone()
-        .subtract(5, "hours")
-        .format("YYYY-MM-DD HH:mm");
 
-      E.arrivalDate = istDateTimeArrival;
-      E.departureDate = istDateTimeDeparture;
+    const newData = response.data.data.map((E: any) => {
+      const arrivalDate = moment
+        .utc(E.arrivalDate)
+        .utcOffset("+02:00")
+        .format("YYYY-MM-DD HH:mm");
+      const departureDate = moment
+        .utc(E.departureDate)
+        .utcOffset("+02:00")
+        .format("YYYY-MM-DD HH:mm");
+      E.arrivalDate = arrivalDate;
+      E.departureDate = departureDate;
       return E;
     });
-    console.log(
-      " registered Event:: response.data.data :: ",
-      response.data.data
-    );
+
     return {
       status: statusCode.SUCCESS,
       data: newData,

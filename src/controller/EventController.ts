@@ -2,8 +2,9 @@ import { Request, Response } from "express";
 import { statusCode, generalMessage } from "../config/constant";
 import {
   getActiveEventsUtils,
+  getregisteredEventUtils,
+  postregisteredEventUtils,
   registerForEventUtils,
-  registeredEventUtils,
 } from "../utils/Event.Utils";
 
 export const getActiveEventsController = async (req: any, res: Response) => {
@@ -39,13 +40,30 @@ export const registerEventController = async (req: any, res: Response) => {
   }
 };
 
-export const registeredEventController = async (req: any, res: Response) => {
+export const postregisteredEventController = async (req: any, res: Response) => {
   try {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${req.headers.authorization}`,
     };
-    const data = await registeredEventUtils(headers);
+    const data = await postregisteredEventUtils(headers,req.body);
+    res.json(data);
+  } catch (error) {
+    console.log("error ::", error);
+    res.json({
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    });
+  }
+};
+export const getregisteredEventController = async (req: any, res: Response) => {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `${req.headers.authorization}`,
+    };
+    const data = await getregisteredEventUtils(headers);
     res.json(data);
   } catch (error) {
     console.log("error ::", error);
@@ -60,5 +78,6 @@ export const registeredEventController = async (req: any, res: Response) => {
 module.exports = {
   getActiveEventsController,
   registerEventController,
-  registeredEventController,
+  postregisteredEventController,
+  getregisteredEventController
 };

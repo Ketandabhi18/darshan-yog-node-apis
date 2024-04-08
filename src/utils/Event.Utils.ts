@@ -92,7 +92,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     };
   }
 };
-export const registeredEventUtils = async (headers: any) => {
+export const getregisteredEventUtils = async (headers: any) => {
   try {
     const response = await axios.get(
       "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register?eventCode=YOGDHAM_FEB24",
@@ -130,8 +130,59 @@ export const registeredEventUtils = async (headers: any) => {
   }
 };
 
+export const postregisteredEventUtils = async (headers: any, body: any) => {
+  try {
+    console.log("post registeredEvets :: body :: ", body);
+    let url: any = "";
+    if (body.eventCode && body.mobileNumber) {
+      url = `http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register?eventCode=${body.eventCode}&mobileNumber=%2B91${body.mobileNumber}`;
+    } else {
+      url = `http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register?eventCode=YOGDHAM_FEB24`;
+    }
+    console.log("url :: ", url);
+    const response = await axios.get(url, {
+      headers: headers,
+    });
+    console.log("RegisteredEvent :: response.data :: ", response.data);
+    if (response.data.data === null) {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: null,
+        message: response.data.error.errorMessage,
+      };
+    }
+    const newData = response.data.data.map((E: any) => {
+      const arrivalDate = moment
+        .utc(E.arrivalDate)
+        .utcOffset("+02:00")
+        .format("YYYY-MM-DD HH:mm");
+      const departureDate = moment
+        .utc(E.departureDate)
+        .utcOffset("+02:00")
+        .format("YYYY-MM-DD HH:mm");
+      E.arrivalDate = arrivalDate;
+      E.departureDate = departureDate;
+      return E;
+    });
+
+    return {
+      status: statusCode.SUCCESS,
+      data: newData,
+      messsage: Messages.ACTIVE_EVENTS,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      status: statusCode.INTERNAL_SERVER_ERROR,
+      data: error,
+      message: generalMessage.SOMETHING_WENT_WRONG,
+    };
+  }
+};
+
 module.exports = {
   getActiveEventsUtils,
   registerForEventUtils,
-  registeredEventUtils,
+  getregisteredEventUtils,
+  postregisteredEventUtils,
 };

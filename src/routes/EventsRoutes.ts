@@ -2,7 +2,8 @@ import { Router } from "express";
 import {
   getActiveEventsController,
   registerEventController,
-  registeredEventController,
+  getregisteredEventController,
+  postregisteredEventController,
 } from "../controller/EventController";
 
 const EventRoutes = Router();
@@ -10,6 +11,7 @@ const EventRoutes = Router();
 // get api for active events
 EventRoutes.get("/active", getActiveEventsController);
 EventRoutes.post("/register", registerEventController);
-EventRoutes.get("/event-registrations", registeredEventController);
+EventRoutes.get("/event-registrations", getregisteredEventController);
+EventRoutes.post("/registration-check", postregisteredEventController);
 
 export default EventRoutes;

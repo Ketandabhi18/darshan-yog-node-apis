@@ -22,7 +22,6 @@ export const getActiveEventsController = async (req: any, res: Response) => {
 
 export const registerEventController = async (req: any, res: Response) => {
   try {
-    console.log("req.headers.authorization :: ", req.headers.authorization);
     console.log("req.body :: ", req.body);
     const headers = {
       "Content-Type": "application/json",

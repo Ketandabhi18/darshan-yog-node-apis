@@ -24,33 +24,41 @@ export const getActiveEventsUtils = async () => {
 
 export const registerForEventUtils = async (data: any, headers: any) => {
   try {
-    const inputDateTimeArrival = moment.tz(
-      data.arrivalDate,
-      "MM-DD-YYYY HH:mm",
-      "Asia/Kolkata"
+    console.log("registerForEvent :: req.body :: arrival and departure", {
+      arrivalDate: data.arrivalDate,
+      departureDate: data.departureDate,
+    });
+
+    const inputDateTimeArrival = moment(data.arrivalDate).format(
+      "YYYY-MM-DD HH:mm"
     );
 
-    const inputDateTimeDeparture = moment.tz(
-      data.departureDate,
-      "MM-DD-YYYY HH:mm",
-      "Asia/Kolkata"
+    const inputDateTimeDeparture = moment(data.departureDate).format(
+      "YYYY-MM-DD HH:mm"
     );
-    const outputDateTimeArrival =
-      inputDateTimeArrival.format("YYYY-MM-DD HH:mm");
-    const outputDateTimeDeparture =
-      inputDateTimeDeparture.format("YYYY-MM-DD HH:mm");
+    console.log(
+      "registerForEvent :: convertsion progress :: arrival and departure",
+      {
+        arrivalDate: inputDateTimeArrival,
+        departureDate: inputDateTimeDeparture,
+      }
+    );
+    // const outputDateTimeArrival =
+    //   inputDateTimeArrival.format("YYYY-MM-DD HH:mm");
+    // const outputDateTimeDeparture =
+    //   inputDateTimeDeparture.format("YYYY-MM-DD HH:mm");
 
     console.log("registerForEvent :: body ::", {
       ...data,
-      arrivalDate: `${outputDateTimeArrival} IST`,
-      departureDate: `${outputDateTimeDeparture} IST`,
+      arrivalDate: `${inputDateTimeArrival} IST`,
+      departureDate: `${inputDateTimeDeparture} IST`,
     });
     const response = await axios.post(
       "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register",
       {
         ...data,
-        arrivalDate: `${outputDateTimeArrival} IST`,
-        departureDate: `${outputDateTimeDeparture} IST`,
+        arrivalDate: `${inputDateTimeArrival} IST`,
+        departureDate: `${inputDateTimeDeparture} IST`,
       },
       {
         headers: headers,
@@ -58,11 +66,19 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     );
 
     console.log("registerEvent :: response.data.data :: ", response.data);
-    return {
-      status: statusCode.SUCCESS,
-      data: response.data.data,
-      messsage: Messages.ACTIVE_EVENTS,
-    };
+    if (typeof response.data == "object") {
+      return {
+        status: statusCode.SUCCESS,
+        data: response.data.data,
+        messsage: Messages.ACTIVE_EVENTS,
+      };
+    } else {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: null,
+        messsage: generalMessage.SOMETHING_WENT_WRONG,
+      };
+    }
   } catch (error) {
     console.log("error :: ", error);
     return {
@@ -80,7 +96,7 @@ export const registeredEventUtils = async (headers: any) => {
         headers: headers,
       }
     );
-
+    console.log("RegisteredEvent :: response.data :: ", response.data);
     const newData = response.data.data.map((E: any) => {
       const arrivalDate = moment
         .utc(E.arrivalDate)

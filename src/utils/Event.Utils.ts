@@ -28,21 +28,6 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       arrivalDate: data.arrivalDate,
       departureDate: data.departureDate,
     });
-    if (typeof data.groupDetails === "string") {
-      // const convertedGroupDetails = JSON.parse(data.groupDetails);
-      // data.groupDetails = convertedGroupDetails;
-      let str = data.groupDetails;
-      str = str.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
-
-      // Parse the string into a JavaScript array
-      let arr = JSON.parse(str);
-
-      console.log(arr);
-
-      data.groupDetails = arr;
-
-      console.log(arr);
-    }
 
     const inputDateTimeArrival = moment(data.arrivalDate).format(
       "YYYY-MM-DD HH:mm"

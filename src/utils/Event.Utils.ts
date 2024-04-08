@@ -24,10 +24,20 @@ export const getActiveEventsUtils = async () => {
 
 export const registerForEventUtils = async (data: any, headers: any) => {
   try {
-    console.log("registerForEvent :: req.body :: arrival and departure", {
-      arrivalDate: data.arrivalDate,
-      departureDate: data.departureDate,
-    });
+    console.log("registerForEvent :: req.body :: arrival and departure", data);
+    if (typeof data.groupDetails === "string") {
+      // const convertedGroupDetails = JSON.parse(data.groupDetails);
+      // data.groupDetails = convertedGroupDetails;
+      let str = data.groupDetails;
+      str = str.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+
+      // Parse the string into a JavaScript array
+      let arr = JSON.parse(str);
+
+      console.log("arr :: ", arr);
+
+      data.groupDetails = arr;
+    }
 
     const inputDateTimeArrival = moment(data.arrivalDate).format(
       "YYYY-MM-DD HH:mm"
@@ -36,13 +46,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     const inputDateTimeDeparture = moment(data.departureDate).format(
       "YYYY-MM-DD HH:mm"
     );
-    console.log(
-      "registerForEvent :: convertsion progress :: arrival and departure",
-      {
-        arrivalDate: inputDateTimeArrival,
-        departureDate: inputDateTimeDeparture,
-      }
-    );
+    console.log("registerForEvent ::data.groupdetails :: ", data.groupdetails);
     // const outputDateTimeArrival =
     //   inputDateTimeArrival.format("YYYY-MM-DD HH:mm");
     // const outputDateTimeDeparture =

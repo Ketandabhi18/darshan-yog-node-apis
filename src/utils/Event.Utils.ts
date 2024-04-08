@@ -24,7 +24,10 @@ export const getActiveEventsUtils = async () => {
 
 export const registerForEventUtils = async (data: any, headers: any) => {
   try {
-    console.log("registerForEvent :: req.body :: arrival and departure", data);
+    console.log(
+      "registerForEvent :: req.body :: arrival and departure",
+      data.groupDetails
+    );
     if (typeof data.groupDetails === "string") {
       // const convertedGroupDetails = JSON.parse(data.groupDetails);
       // data.groupDetails = convertedGroupDetails;
@@ -46,7 +49,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     const inputDateTimeDeparture = moment(data.departureDate).format(
       "YYYY-MM-DD HH:mm"
     );
-    console.log("registerForEvent ::data.groupdetails :: ", data.groupdetails);
+    console.log("registerForEvent ::data.groupdetails :: ", data.groupDetails);
     // const outputDateTimeArrival =
     //   inputDateTimeArrival.format("YYYY-MM-DD HH:mm");
     // const outputDateTimeDeparture =

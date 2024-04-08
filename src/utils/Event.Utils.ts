@@ -66,11 +66,19 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     );
 
     console.log("registerEvent :: response.data.data :: ", response.data);
-    return {
-      status: statusCode.SUCCESS,
-      data: response.data.data,
-      messsage: Messages.ACTIVE_EVENTS,
-    };
+    if (typeof response.data == "object") {
+      return {
+        status: statusCode.SUCCESS,
+        data: response.data.data,
+        messsage: Messages.ACTIVE_EVENTS,
+      };
+    } else {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: null,
+        messsage: generalMessage.SOMETHING_WENT_WRONG,
+      };
+    }
   } catch (error) {
     console.log("error :: ", error);
     return {

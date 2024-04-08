@@ -29,8 +29,19 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       departureDate: data.departureDate,
     });
     if (typeof data.groupDetails === "string") {
-      const convertedGroupDetails = JSON.parse(data.groupDetails);
-      data.groupDetails = convertedGroupDetails;
+      // const convertedGroupDetails = JSON.parse(data.groupDetails);
+      // data.groupDetails = convertedGroupDetails;
+      let str = data.groupDetails;
+      str = str.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:/g, '"$2": ');
+
+      // Parse the string into a JavaScript array
+      let arr = JSON.parse(str);
+
+      console.log(arr);
+
+      data.groupDetails = arr;
+
+      console.log(arr);
     }
 
     const inputDateTimeArrival = moment(data.arrivalDate).format(
@@ -70,7 +81,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     );
 
     console.log("registerEvent :: response.data.data :: ", response.data);
-    if (typeof response.data == "object") {
+    if (typeof response.data.data == "object") {
       return {
         status: statusCode.SUCCESS,
         data: response.data.data,

@@ -28,6 +28,10 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       arrivalDate: data.arrivalDate,
       departureDate: data.departureDate,
     });
+    if (typeof data.groupDetails === "string") {
+      const convertedGroupDetails = JSON.parse(data.groupDetails);
+      data.groupDetails = convertedGroupDetails;
+    }
 
     const inputDateTimeArrival = moment(data.arrivalDate).format(
       "YYYY-MM-DD HH:mm"

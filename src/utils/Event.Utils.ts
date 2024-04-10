@@ -73,7 +73,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     );
 
     console.log("registerEvent :: response.data.data :: ", response.data);
-    if (typeof response.data.data == "object") {
+    if (typeof response.data.data === "object") {
       return {
         status: statusCode.SUCCESS,
         data: response.data.data,
@@ -82,8 +82,8 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     } else {
       return {
         status: statusCode.BAD_REQUEST,
-        data: null,
-        messsage: generalMessage.SOMETHING_WENT_WRONG,
+        data: response.data.data,
+        messsage: response.data.error.errorMessage,
       };
     }
   } catch (error) {

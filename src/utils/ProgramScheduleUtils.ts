@@ -57,7 +57,7 @@ export const createProgramUtils = async (data: any, file?: any) => {
     return {
       status: statusCode.CREATED,
       data: programSchedule,
-      messsage: Messages.PROGRAM_SCHEDULED,
+      message: Messages.PROGRAM_SCHEDULED,
     };
   } catch (error) {
     console.log(error);
@@ -121,7 +121,7 @@ export const getAllProgramUtils = async () => {
     return {
       status: statusCode.SUCCESS,
       data: programs,
-      messsage: Messages.SCHEDULED_PROGRAMS,
+      message: Messages.SCHEDULED_PROGRAMS,
     };
   } catch (error) {
     console.log(error);

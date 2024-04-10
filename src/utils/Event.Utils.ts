@@ -10,7 +10,7 @@ export const getActiveEventsUtils = async () => {
     return {
       status: statusCode.SUCCESS,
       data: response.data.data,
-      messsage: Messages.ACTIVE_EVENTS,
+      message: Messages.ACTIVE_EVENTS,
     };
   } catch (error) {
     console.log(error);
@@ -83,7 +83,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       return {
         status: statusCode.BAD_REQUEST,
         data: response.data.data,
-        messsage: response.data.error.errorMessage,
+        message: response.data.error.errorMessage,
       };
     }
 
@@ -91,7 +91,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       return {
         status: statusCode.SUCCESS,
         data: response.data.data,
-        messsage: Messages.ACTIVE_EVENTS,
+        message: Messages.ACTIVE_EVENTS,
       };
     }
   } catch (error) {
@@ -129,7 +129,7 @@ export const getregisteredEventUtils = async (headers: any) => {
     return {
       status: statusCode.SUCCESS,
       data: newData,
-      messsage: Messages.ACTIVE_EVENTS,
+      message: Messages.ACTIVE_EVENTS,
     };
   } catch (error) {
     console.log(error);
@@ -179,7 +179,7 @@ export const postregisteredEventUtils = async (headers: any, body: any) => {
     return {
       status: statusCode.SUCCESS,
       data: newData,
-      messsage: Messages.ACTIVE_EVENTS,
+      message: Messages.ACTIVE_EVENTS,
     };
   } catch (error) {
     console.log(error);

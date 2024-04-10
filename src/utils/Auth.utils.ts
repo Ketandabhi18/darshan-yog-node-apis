@@ -280,7 +280,7 @@ export const userUpdateUtils = async (data: any, headers: any) => {
       return {
         status: statusCode.SUCCESS,
         data: response.data.data,
-        messsage: Messages.USER_UPDATED,
+        message: Messages.USER_UPDATED,
       };
     } else {
       return {
@@ -311,7 +311,7 @@ export const userPasswordUpdateUtils = async (data: any, headers: any) => {
     return {
       status: statusCode.SUCCESS,
       data: response.data.data,
-      messsage: Messages.USER_PASSWORD_UPDATED,
+      message: Messages.USER_PASSWORD_UPDATED,
     };
   } catch (error) {
     console.log("error :: ", error);

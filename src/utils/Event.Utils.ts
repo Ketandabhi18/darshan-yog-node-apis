@@ -72,18 +72,26 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       }
     );
 
-    console.log("registerEvent :: response.data.data :: ", response.data);
+    console.log(
+      "registerEvent :: response.data.data :: ",
+      response.data,
+      "typeof response.data.data :: ",
+      response.data.data,
+      typeof response.data.data
+    );
+    if (response.data.data === null) {
+      return {
+        status: statusCode.BAD_REQUEST,
+        data: response.data.data,
+        messsage: response.data.error.errorMessage,
+      };
+    }
+
     if (typeof response.data.data === "object") {
       return {
         status: statusCode.SUCCESS,
         data: response.data.data,
         messsage: Messages.ACTIVE_EVENTS,
-      };
-    } else {
-      return {
-        status: statusCode.BAD_REQUEST,
-        data: response.data.data,
-        messsage: response.data.error.errorMessage,
       };
     }
   } catch (error) {

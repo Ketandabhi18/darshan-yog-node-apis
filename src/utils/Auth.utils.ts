@@ -268,7 +268,7 @@ export const userLoginCentralizedAPi = async (data: any) => {
 
 export const userUpdateUtils = async (data: any, headers: any) => {
   try {
-    const response = await axios.post(
+    const response: any = await axios.post(
       "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/save/user",
       data,
       { headers: headers }
@@ -276,6 +276,16 @@ export const userUpdateUtils = async (data: any, headers: any) => {
 
     console.log("user update utils :: ", response.data);
 
+    if (
+      response.request.res.responseUrl ===
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/login"
+    ) {
+      return {
+        status: statusCode.UNAUTHORIZED,
+        data: null,
+        message: AuthMessage.TOKEN_EXPIRED,
+      };
+    }
     if (response.data.data) {
       return {
         status: statusCode.SUCCESS,
@@ -307,7 +317,17 @@ export const userPasswordUpdateUtils = async (data: any, headers: any) => {
       { headers: headers }
     );
 
-    console.log("response.data.data :: ", response);
+    if (
+      response.request.res.responseUrl ===
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/login"
+    ) {
+      return {
+        status: statusCode.UNAUTHORIZED,
+        data: null,
+        message: AuthMessage.TOKEN_EXPIRED,
+      };
+    }
+    console.log("usePassword :: response.data.data :: ", response.data);
     return {
       status: statusCode.SUCCESS,
       data: response.data.data,

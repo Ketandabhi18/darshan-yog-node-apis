@@ -1,5 +1,10 @@
 import axios from "axios";
-import { Messages, generalMessage, statusCode } from "../config/constant";
+import {
+  AuthMessage,
+  Messages,
+  generalMessage,
+  statusCode,
+} from "../config/constant";
 const moment = require("moment-timezone");
 
 export const getActiveEventsUtils = async () => {
@@ -73,6 +78,18 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     );
 
     console.log("registerEvent :: response.data.data :: ", response);
+
+    if (
+      response.request.res.responseUrl ===
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/login"
+    ) {
+      return {
+        status: statusCode.UNAUTHORIZED,
+        data: null,
+        message: AuthMessage.TOKEN_EXPIRED,
+      };
+    }
+
     if (response.data.data === null) {
       return {
         status: statusCode.BAD_REQUEST,
@@ -106,25 +123,37 @@ export const getregisteredEventUtils = async (headers: any, query: any) => {
       }
     );
     console.log("RegisteredEvent :: response.data :: ", response.data);
-    const newData = response.data.data.map((E: any) => {
-      const arrivalDate = moment
-        .utc(E.arrivalDate)
-        .utcOffset("+02:00")
-        .format("YYYY-MM-DD HH:mm");
-      const departureDate = moment
-        .utc(E.departureDate)
-        .utcOffset("+02:00")
-        .format("YYYY-MM-DD HH:mm");
-      E.arrivalDate = arrivalDate;
-      E.departureDate = departureDate;
-      return E;
-    });
 
-    return {
-      status: statusCode.SUCCESS,
-      data: newData,
-      message: Messages.ACTIVE_EVENTS,
-    };
+    if (
+      response.request.res.responseUrl ===
+      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/login"
+    ) {
+      return {
+        status: statusCode.UNAUTHORIZED,
+        data: null,
+        message: AuthMessage.TOKEN_EXPIRED,
+      };
+    } else {
+      const newData = response.data.data.map((E: any) => {
+        const arrivalDate = moment
+          .utc(E.arrivalDate)
+          .utcOffset("+02:00")
+          .format("YYYY-MM-DD HH:mm");
+        const departureDate = moment
+          .utc(E.departureDate)
+          .utcOffset("+02:00")
+          .format("YYYY-MM-DD HH:mm");
+        E.arrivalDate = arrivalDate;
+        E.departureDate = departureDate;
+        return E;
+      });
+
+      return {
+        status: statusCode.SUCCESS,
+        data: newData,
+        message: Messages.ACTIVE_EVENTS,
+      };
+    }
   } catch (error) {
     console.log(error);
     return {

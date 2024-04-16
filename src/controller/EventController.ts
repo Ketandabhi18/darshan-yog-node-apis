@@ -40,13 +40,16 @@ export const registerEventController = async (req: any, res: Response) => {
   }
 };
 
-export const postregisteredEventController = async (req: any, res: Response) => {
+export const postregisteredEventController = async (
+  req: any,
+  res: Response
+) => {
   try {
     const headers = {
       "Content-Type": "application/json",
       Authorization: `${req.headers.authorization}`,
     };
-    const data = await postregisteredEventUtils(headers,req.body);
+    const data = await postregisteredEventUtils(headers, req.body);
     res.json(data);
   } catch (error) {
     console.log("error ::", error);
@@ -63,7 +66,7 @@ export const getregisteredEventController = async (req: any, res: Response) => {
       "Content-Type": "application/json",
       Authorization: `${req.headers.authorization}`,
     };
-    const data = await getregisteredEventUtils(headers);
+    const data = await getregisteredEventUtils(headers, req.query);
     res.json(data);
   } catch (error) {
     console.log("error ::", error);
@@ -79,5 +82,5 @@ module.exports = {
   getActiveEventsController,
   registerEventController,
   postregisteredEventController,
-  getregisteredEventController
+  getregisteredEventController,
 };

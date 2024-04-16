@@ -72,13 +72,7 @@ export const registerForEventUtils = async (data: any, headers: any) => {
       }
     );
 
-    console.log(
-      "registerEvent :: response.data.data :: ",
-      response.data,
-      "typeof response.data.data :: ",
-      response.data.data,
-      typeof response.data.data
-    );
+    console.log("registerEvent :: response.data.data :: ", response);
     if (response.data.data === null) {
       return {
         status: statusCode.BAD_REQUEST,
@@ -103,10 +97,10 @@ export const registerForEventUtils = async (data: any, headers: any) => {
     };
   }
 };
-export const getregisteredEventUtils = async (headers: any) => {
+export const getregisteredEventUtils = async (headers: any, query: any) => {
   try {
     const response = await axios.get(
-      "http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register?eventCode=YOGDHAM_FEB24",
+      `http://digitalaryasamaj.ap-south-1.elasticbeanstalk.com/event/register?eventCode=${query.eventCode}`,
       {
         headers: headers,
       }
